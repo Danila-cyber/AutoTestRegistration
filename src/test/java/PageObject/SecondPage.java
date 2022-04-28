@@ -6,14 +6,11 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
-public class SecondPage {
-    AppData data = new AppData();
+public class SecondPage extends BasePage {
 
     private ChromeDriver driver;
-    public SecondPage(ChromeDriver paramDriver) {
-        driver = paramDriver;
-    }
-    private final By radioBtnGender = By.xpath("//*[@id=\"account-creation_form\"]/div[1]/div[1]/div[1]/label");
+
+    private final By radioBtnGender = By.cssSelector("#account-creation_form > div:nth-child(1) > div.clearfix > div:nth-child(3) > label");
     private final By inputFirstName = By.id("customer_firstname");
     private final By inputLastName = By.id("customer_lastname");
     private final By inputPassword = By.id("passwd");
@@ -28,27 +25,33 @@ public class SecondPage {
     private final By inputPhone = By.id("phone_mobile");
     private final By btnFinish = By.id("submitAccount");
 
+    public SecondPage(ChromeDriver paramDriver) {
+        super(paramDriver);
+        driver = paramDriver;
+    }
+
     public void secondRegistration() {
         driver.findElement(radioBtnGender).click();
-        setValueAttribute(driver, inputFirstName, data.FirstName);
-        setValueAttribute(driver, inputLastName, data.LastName);
-        setValueAttribute(driver, inputPassword, data.Password);
+        setValueAttribute(driver, inputFirstName, data.firstName);
+        setValueAttribute(driver, inputLastName, data.lastName);
+        setValueAttribute(driver, inputPassword, data.password);
 
-        setValueAttribute(driver, inputAddressFirstName, data.FirstName);
-        setValueAttribute(driver, inputAddressLastName, data.LastName);
-        setValueAttribute(driver, inputAddressCompanyName, data.CompanyName);
-        setValueAttribute(driver, inputAddressCity, data.City);
-        setSelectValue(driver, selectAddressState, "1");
-        setValueAttribute(driver, inputAddressPostalCode,data.PostalCode);
-        setSelectValue(driver, selectAddressCountry, "21");
-        setValueAttribute(driver, inputPhone, data.Phone);
+        setValueAttribute(driver, inputAddressFirstName, data.firstName);
+        setValueAttribute(driver, inputAddressLastName, data.lastName);
+        setValueAttribute(driver, inputAddressCompanyName, data.companyName);
+        setValueAttribute(driver, inputAddressCity, data.city);
+        setSelectValue(driver, selectAddressState, data.numberState);
+        setValueAttribute(driver, inputAddressPostalCode,data.postalCode);
+        setSelectValue(driver, selectAddressCountry, data.numberCountry);
+        setValueAttribute(driver, inputPhone, data.phone);
         driver.findElement(btnFinish).click();
+
     }
 
     private void setSelectValue(ChromeDriver paramDriver, By locator, String value) {
         WebElement elem = paramDriver.findElement(locator);
-        Select SelectElem = new Select(elem);
-        SelectElem.selectByValue(value);
+        Select selectElem = new Select(elem);
+        selectElem.selectByValue(value);
     }
 
     private void setValueAttribute(ChromeDriver paramDriver, By locator, String valueAtr){
